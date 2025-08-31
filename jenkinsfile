@@ -1,30 +1,34 @@
 pipeline {
-         agent any
-         stages {
-                 stage('Build') {
-                 steps {
-                     echo 'Hi, GeekFlare. Starting to build the App.'
-                 }
-                 }
-                 stage('Test') {
-                 steps {
-                    input('Do you want to proceed?')
-                 }
-                 }
-                 stage('Deploy') {
-                 parallel { 
-                            stage('Deploy start ') {
-                           steps {
-                                echo "Start the deploy .."
-                           } 
-                           }
-                           }
-                           }
-                 stage('Prod') {
-                     steps {
-                                echo "App is Prod Ready"
-                              }
-                 
-              }
-}
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Hi, GeekFlare. Starting to build the App.'
+            }
+        }
+        stage('Test') {
+            steps {
+                input 'Do you want to proceed?'
+            }
+        }
+        stage('Deploy') {
+            parallel {
+                stage('Deploy Start') {
+                    steps {
+                        echo 'Start the deploy...'
+                    }
+                }
+                stage('Deploy Monitor') {
+                    steps {
+                        echo 'Monitoring deployment...'
+                    }
+                }
+            }
+        }
+        stage('Prod') {
+            steps {
+                echo 'App is Prod Ready'
+            }
+        }
+    }
 }
